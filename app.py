@@ -6,6 +6,7 @@ import pandas as pd
 from core.data_loader import load_cars
 from core.search import filter_cars
 from core.sorting import sort_cars
+from core.top_picks import top_picks
 
 st.set_page_config(page_title="Помощник по подбору авто", layout="wide")
 st.title("🚗 Помощник по подбору авто")
@@ -88,6 +89,16 @@ result = filter_cars(
 
 result = sort_cars(result, by=sort_by, ascending=ascending)
 
+
+st.subheader("Топ-5 предложений")
+if result.empty:
+    st.info("По заданным параметрам нет предложений.")
+else:
+    st.caption(
+        "Среди найденных машин одинаково учитываются меньшая цена, "
+        "меньший пробег и более свежий год выпуска."
+    )
+    st.dataframe(top_picks(result))
 
 st.subheader(f"Найдено: {len(result)}")
 st.dataframe(result)
