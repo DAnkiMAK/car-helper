@@ -9,7 +9,7 @@ from core.sorting import sort_cars
 from core.top_picks import top_picks
 
 st.set_page_config(page_title="Помощник по подбору авто", layout="wide")
-st.title("🚗 Помощник по подбору авто")
+st.title("🚗 Автоподборщик 🚗")
 
 
 @st.cache_data
@@ -21,7 +21,7 @@ def get_data():
 
 df = get_data()
 # ===== Сайдбар: параметры поиска (функция №1) =====
-st.sidebar.header("🔍 Параметры поиска")
+st.sidebar.header("🔍 Фильтры поиска 🔍")
 
 # Текстовые фильтры — выпадающие списки
 make = st.sidebar.selectbox("Марка", [None] + sorted(df["make"].unique()))
@@ -100,5 +100,5 @@ else:
     )
     st.dataframe(top_picks(result))
 
-st.subheader(f"Найдено: {len(result)}")
+st.subheader(f"Найдено автомобилей: {len(result)} 🏎️")
 st.dataframe(result)
