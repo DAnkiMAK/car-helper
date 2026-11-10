@@ -7,6 +7,7 @@ from core.data_loader import load_cars
 from core.search import filter_cars
 from core.sorting import sort_cars
 from core.top_picks import top_picks
+from core.market_benchmarks import market_benchmarks
 
 st.set_page_config(page_title="Помощник по подбору авто", layout="wide")
 st.title("🚗 Автоподборщик 🚗")
@@ -88,6 +89,39 @@ result = filter_cars(
 )
 
 result = sort_cars(result, by=sort_by, ascending=ascending)
+
+
+st.subheader("Рыночные ориентиры")
+if not make:
+    st.info("Выберите марку в фильтрах, чтобы посмотреть ценовые ориентиры.")
+else:
+    # Берём всю таблицу: ограничение бюджета не должно менять ориентир цены.
+    orientiry = market_benchmarks(df, make=make, model=model)
+    if orientiry is None:
+        st.info("Для выбранной марки и модели нет предложений.")
+    else:
+        group_name = f"{make} {model}" if model else make
+        st.caption(
+            f"Группа: {group_name}. Учитываются все объявления этой группы; "
+            "остальные фильтры поиска на ориентиры не влияют. "
+            "Типичный диапазон — от 25-го до 75-го процентиля, "
+            "то есть середина распределения цен. Это цены объявлений из датасета."
+        )
+        kol, mediana, diapazon, granicy = st.columns(4)
+        kol.metric("Количество предложений", orientiry["count"])
+        mediana.metric("Медианная цена", f'{orientiry["median"]:,.2f}')
+        diapazon.metric(
+            "Типичный диапазон цен",
+            f'{orientiry["q25"]:,.2f} – {orientiry["q75"]:,.2f}',
+        )
+        granicy.metric(
+            "Минимум — максимум",
+            f'{orientiry["min"]:,} – {orientiry["max"]:,}',
+        )
+        if not model:
+            st.caption("Выберите также модель, чтобы сравнивать более узкую группу.")
+        if orientiry["count"] < 5:
+            st.caption("Предложений мало: ориентиры рассчитаны по небольшой выборке.")
 
 
 st.subheader("Топ-5 предложений")
