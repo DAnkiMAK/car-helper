@@ -160,5 +160,6 @@ if st.button("Оценить цену", key="pf_button"):
             delta=f"{fairness['difference_percent']:+.1f}%",
             delta_color="inverse",
         )
-     st.subheader(f"Найдено автомобилей: {len(result)} 🏎️")
+
+st.subheader(f"Найдено автомобилей: {len(result)} 🏎️")
 st.dataframe(result)
