@@ -47,11 +47,11 @@
      14 │   ├── test_sorting.py     # ✅ готово
      15 │   └── test_top_picks.py   # ✅ готово
      16 │   └── test_price_fairness.py   # ✅ готово
-     16 ├── data/cars_germany.csv   # датасет
-     17 ├── requirements.txt
-     18 ├── pytest.ini
-     19 ├── Dockerfile
-     20 └── README.md
+     17 ├── data/cars_germany.csv   # датасет
+     18 ├── requirements.txt
+     19 ├── pytest.ini
+     20 ├── Dockerfile
+     21 └── README.md
 
     Статус
 
